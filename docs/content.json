@@ -1,0 +1,232 @@
+{
+  "content": {
+    "profile": {
+      "name": "Facundo Garómpolo",
+      "title": {
+        "es": "Estudiante de Ingeniería Informática",
+        "en": "Computer Engineering student"
+      },
+      "intro": {
+        "es": "Me interesan las soluciones prácticas y el aprendizaje continuo. Busco una pasantía en IT para adquirir experiencia profesional, mejorar mis habilidades técnicas y aportar al equipo con compromiso, proactividad y rápida adaptación.",
+        "en": "I am interested in practical solutions and continuous learning. I am looking for an IT internship to gain professional experience, improve my technical skills, and contribute to the team with commitment, proactivity and quick adaptation."
+      },
+      "location": {
+        "es": "San Miguel, Buenos Aires",
+        "en": "San Miguel, Buenos Aires"
+      },
+      "photo": "",
+      "photoAlt": {
+        "es": "",
+        "en": ""
+      },
+      "photoX": 50,
+      "photoY": 50,
+      "photoZoom": 1
+    },
+    "experience": [
+      {
+        "id": "sforza",
+        "visible": true,
+        "title": {
+          "es": "Atención al cliente y administración de bases de datos",
+          "en": "Customer service and database administration"
+        },
+        "organization": {
+          "es": "Sforza Propiedades",
+          "en": "Sforza Propiedades Real Estate"
+        },
+        "dates": {
+          "es": "",
+          "en": ""
+        },
+        "description": {
+          "es": "Atención al cliente y administración de bases de datos.",
+          "en": "Customer service and database administration."
+        },
+        "tasks": {
+          "es": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "legal",
+        "visible": true,
+        "title": {
+          "es": "Asistente de abogado",
+          "en": "Lawyer assistant"
+        },
+        "organization": {
+          "es": "",
+          "en": ""
+        },
+        "dates": {
+          "es": "",
+          "en": ""
+        },
+        "description": {
+          "es": "Asistencia en organización, documentación legal, redacción de documentos, atención al cliente, manejo de dinero y recibos.",
+          "en": "Help with organization, legal documents, writing documents, customer service, money handling and receipts."
+        },
+        "tasks": {
+          "es": "",
+          "en": ""
+        }
+      }
+    ],
+    "education": [
+      {
+        "id": "uade",
+        "visible": true,
+        "title": {
+          "es": "Ingeniería Informática",
+          "en": "Computer Engineering"
+        },
+        "organization": {
+          "es": "Universidad Argentina de la Empresa (UADE)",
+          "en": "Universidad Argentina de la Empresa (UADE)"
+        },
+        "dates": {
+          "es": "2022 – Actualidad",
+          "en": "2022 – Present"
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        },
+        "status": {
+          "es": "En curso",
+          "en": "In progress"
+        },
+        "progress": 40,
+        "certificate": "",
+        "certificateVisible": false
+      },
+      {
+        "id": "utn",
+        "visible": true,
+        "title": {
+          "es": "Fundamentos de Programación",
+          "en": "Programming Fundamentals"
+        },
+        "organization": {
+          "es": "Universidad Tecnológica Nacional (UTN)",
+          "en": "National Technological University (UTN)"
+        },
+        "dates": {
+          "es": "2025",
+          "en": "2025"
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        },
+        "status": {
+          "es": "Curso",
+          "en": "Course"
+        },
+        "progress": null,
+        "certificate": "",
+        "certificateVisible": false
+      }
+    ],
+    "skills": [
+      {
+        "id": "skill-0",
+        "visible": true,
+        "title": {
+          "es": "Java",
+          "en": "Java"
+        },
+        "description": {
+          "es": "Intermedio · aprendiendo Spring",
+          "en": "Intermediate · learning Spring"
+        }
+      },
+      {
+        "id": "skill-1",
+        "visible": true,
+        "title": {
+          "es": "Python",
+          "en": "Python"
+        },
+        "description": {
+          "es": "Básico / intermedio",
+          "en": "Basic / intermediate"
+        }
+      },
+      {
+        "id": "skill-2",
+        "visible": true,
+        "title": {
+          "es": "SQL",
+          "en": "SQL"
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "skill-3",
+        "visible": true,
+        "title": {
+          "es": "NoSQL",
+          "en": "NoSQL"
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "skill-4",
+        "visible": true,
+        "title": {
+          "es": "Word · Excel",
+          "en": "Word · Excel"
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        }
+      },
+      {
+        "id": "skill-5",
+        "visible": true,
+        "title": {
+          "es": "Español",
+          "en": "Spanish"
+        },
+        "description": {
+          "es": "Nativo",
+          "en": "Native"
+        }
+      },
+      {
+        "id": "skill-6",
+        "visible": true,
+        "title": {
+          "es": "Inglés",
+          "en": "English"
+        },
+        "description": {
+          "es": "Intermedio B1",
+          "en": "Intermediate B1"
+        }
+      }
+    ],
+    "projects": [],
+    "contact": {
+      "email": "facundoegarompolo@gmail.com",
+      "phone": "1151098800",
+      "linkedin": "https://www.linkedin.com/in/fgarompolo",
+      "github": "",
+      "links": [],
+      "cv": {
+        "es": "./media/cv-original-es.pdf",
+        "en": "./media/cv-original-en.pdf"
+      }
+    }
+  },
+  "updated": "2026-10-06T17:09:09.736Z"
+}

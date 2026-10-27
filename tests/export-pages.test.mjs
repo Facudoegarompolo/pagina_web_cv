@@ -1,0 +1,53 @@
+import { test } from 'node:test';
+import assert from 'node:assert/strict';
+import { DatabaseSync } from 'node:sqlite';
+import { mkdtempSync, mkdirSync, writeFileSync, readFileSync, existsSync, readdirSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
+import { join } from 'node:path';
+import { exportPages } from '../scripts/export-pages.mjs';
+import { seed } from '../lib/seed.mjs';
+
+test('Pages exporta solo publicación y archivos visibles, con rutas relativas', () => {
+  const temp = mkdtempSync(join(tmpdir(), 'fg-pages-'));
+  const dataDir = join(temp, 'data'), outputDir = join(temp, 'docs');
+  mkdirSync(join(dataDir, 'uploads'), { recursive: true });
+  try {
+    const db = new DatabaseSync(join(dataDir, 'portfolio.sqlite'));
+    db.exec('CREATE TABLE content(kind TEXT PRIMARY KEY,json TEXT,updated TEXT); CREATE TABLE admin(password TEXT);');
+    const published = structuredClone(seed), draft = structuredClone(seed);
+    published.contact.cv.es = '/media/public.pdf';
+    published.education[0].certificate = '/media/private.pdf';
+    published.education[0].certificateVisible = false;
+    published.experience[0].visible = false;
+    published.experience[0].description.es = 'HIDDEN-EXPERIENCE';
+    draft.profile.intro.es = 'PRIVATE-DRAFT';
+    draft.contact.cv.es = '/media/draft.pdf';
+    for (const [kind, c] of [['published', published], ['draft', draft]]) db.prepare('INSERT INTO content VALUES (?,?,?)').run(kind, JSON.stringify(c), '2026-10-27T12:00:00Z');
+    db.prepare('INSERT INTO admin VALUES (?)').run('PRIVATE-PASSWORD-HASH');
+    db.close();
+    for (const name of ['public.pdf', 'private.pdf', 'draft.pdf']) writeFileSync(join(dataDir, 'uploads', name), '%PDF-1.4 test');
+    exportPages({ dataDir, outputDir });
+    const json = readFileSync(join(outputDir, 'content.json'), 'utf8');
+    assert.doesNotMatch(json, /PRIVATE-DRAFT|PRIVATE-PASSWORD|HIDDEN-EXPERIENCE|private\.pdf|draft\.pdf/);
+    assert.equal(JSON.parse(json).content.contact.cv.es, './media/public.pdf');
+    assert.deepEqual(readdirSync(join(outputDir, 'media')), ['public.pdf']);
+    const html = readFileSync(join(outputDir, 'index.html'), 'utf8');
+    assert.match(html, /data-content-url="\.\/content.json"/);
+    assert.doesNotMatch(html, /(?:href|src)="\//);
+    assert.doesNotMatch(readFileSync(join(outputDir, 'style.css'), 'utf8'), /url\(['"]?\//);
+    assert.ok(existsSync(join(outputDir, '.nojekyll')));
+    for (const name of ['admin.html','admin.js','admin.css','portfolio.sqlite','server.mjs']) assert.equal(existsSync(join(outputDir, name)), false);
+    writeFileSync(join(outputDir, 'CNAME'), 'portfolio.example.com');
+    writeFileSync(join(outputDir, 'media/stale.pdf'), 'Old file');
+    exportPages({ dataDir, outputDir });
+    assert.equal(readFileSync(join(outputDir, 'CNAME'), 'utf8'), 'portfolio.example.com');
+    assert.equal(existsSync(join(outputDir, 'media/stale.pdf')), false);
+    const untouched = readFileSync(join(outputDir, 'content.json'), 'utf8');
+    rmSync(join(dataDir, 'uploads/public.pdf'));
+    assert.throws(() => exportPages({ dataDir, outputDir }));
+    assert.equal(readFileSync(join(outputDir, 'content.json'), 'utf8'), untouched);
+    const other = join(temp, 'other');mkdirSync(other);writeFileSync(join(other, 'keep.txt'), 'Keep');
+    assert.throws(() => exportPages({ dataDir, outputDir: other }), /no es una exportación/);
+    assert.equal(readFileSync(join(other, 'keep.txt'), 'utf8'), 'Keep');
+  } finally { rmSync(temp, { recursive: true, force: true }); }
+});

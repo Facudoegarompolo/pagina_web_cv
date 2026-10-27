@@ -1,0 +1,11 @@
+data/
+.env
+node_modules/
+output/
+.DS_Store
+*.log
+.pages-export-*/
+.env.*
+!.env.example
+*.sqlite*
+backups/
