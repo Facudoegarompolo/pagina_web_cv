@@ -54,7 +54,7 @@ function render(focus=false) {
   $('.device-screen').classList.toggle('show-menu',menu);
   $('#window').hidden=!mq.matches && (minimized || closed);
   $('#desktop-home').hidden=mq.matches || (!minimized && !closed);
-  $('#desktop-home').innerHTML=`<button class="desktop-shortcut" data-action="restore">${icon('about')}<span>${esc(content.profile.name)}</span><small>${t('open')}</small></button>`;
+  $('#desktop-home').innerHTML=sections().map(s=>`<button class="desktop-shortcut" data-section="${s}">${icon(s)}<span>${t(s)}</span></button>`).join('');
   $('#main-content').innerHTML=menu?phoneMenu():section==='about'?about():section==='skills'?skills():section==='contact'?contact():section==='projects'?projects():entries(section);
   $('#back-button').hidden=menu; $('#back-button').textContent=`← ${t('back')}`;
   $('#phone-caption').textContent=menu?t('menu'):t(section);
