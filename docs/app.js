@@ -1,4 +1,4 @@
-import { createDesktop } from './desktop.js';
+import { createDesktop, createWindow } from './desktop.js';
 import { skillArtwork, contactArtwork } from './artwork.js';
 const $ = s => document.querySelector(s);
 const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -15,17 +15,18 @@ const icons = {
 };
 const icon = key => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">${icons[key] || icons.projects}</svg>`;
 const labels = {
-  es: { about:'Sobre mí', experience:'Experiencia', education:'Formación', skills:'Habilidades', projects:'Proyectos', contact:'Contacto', download:'Descargar CV', home:'Inicio', back:'Atrás', menu:'Menú principal', welcome:'Bienvenido a mi espacio', available:'Informática · Aprendizaje continuo', hello:'Hola, soy', contactMe:'Contactame', more:'Conocé mi formación', empty:'Todavía no hay contenido publicado en esta sección.', progress:'de materias aprobadas', certificate:'Ver certificado', featured:'Destacado', site:'Sitio web', demo:'Demo', repository:'Repositorio', cvMissing:'CV en español pendiente', cvFallback:'Descargar CV (EN)', preview:'VISTA PREVIA · BORRADOR', email:'Escribime', links:'Encontrame también en', minimize:'Minimizar ventana', maximize:'Ampliar o restaurar ventana', close:'Cerrar ventana', open:'Abrir portfolio', error:'No se pudo cargar el portfolio. Volvé a intentarlo.', retry:'Reintentar', dragHint:'Arrastrá los íconos · Alt + flechas', resetIcons:'Ordenar íconos' },
-  en: { about:'About me', experience:'Experience', education:'Education', skills:'Skills', projects:'Projects', contact:'Contact', download:'Download CV', home:'Start', back:'Back', menu:'Main menu', welcome:'Welcome to my space', available:'Computing · Continuous learning', hello:"Hi, I'm", contactMe:'Get in touch', more:'Explore my education', empty:'There is no published content in this section yet.', progress:'of subjects passed', certificate:'View certificate', featured:'Featured', site:'Website', demo:'Demo', repository:'Repository', cvMissing:'English CV pending', cvFallback:'Download CV (ES)', preview:'PREVIEW · DRAFT', email:'Email me', links:'Find me on', minimize:'Minimize window', maximize:'Maximize or restore window', close:'Close window', open:'Open portfolio', error:'Could not load the portfolio. Please try again.', retry:'Retry', dragHint:'Drag icons · Alt + arrow keys', resetIcons:'Arrange icons' }
+  es: { about:'Sobre mí', experience:'Experiencia', education:'Formación', skills:'Habilidades', projects:'Proyectos', contact:'Contacto', download:'Descargar CV', home:'Inicio', back:'Atrás', menu:'Menú principal', welcome:'Bienvenido a mi espacio', available:'Informática · Aprendizaje continuo', hello:'Hola, soy', contactMe:'Contactame', more:'Conocé mi formación', empty:'Todavía no hay contenido publicado en esta sección.', progress:'de materias aprobadas', certificate:'Ver certificado', featured:'Destacado', site:'Sitio web', demo:'Demo', repository:'Repositorio', cvMissing:'CV en español pendiente', cvFallback:'Descargar CV (EN)', preview:'VISTA PREVIA · BORRADOR', email:'Escribime', links:'Encontrame también en', minimize:'Minimizar ventana', maximize:'Ampliar o restaurar ventana', close:'Cerrar ventana', open:'Abrir portfolio', error:'No se pudo cargar el portfolio. Volvé a intentarlo.', retry:'Reintentar', dragHint:'Arrastrá los íconos · Alt + flechas', resetIcons:'Ordenar íconos', address:'Dirección', ready:'Listo', moveWindow:'Arrastrá para mover · Doble clic para maximizar · Alt + flechas' },
+  en: { about:'About me', experience:'Experience', education:'Education', skills:'Skills', projects:'Projects', contact:'Contact', download:'Download CV', home:'Start', back:'Back', menu:'Main menu', welcome:'Welcome to my space', available:'Computing · Continuous learning', hello:"Hi, I'm", contactMe:'Get in touch', more:'Explore my education', empty:'There is no published content in this section yet.', progress:'of subjects passed', certificate:'View certificate', featured:'Featured', site:'Website', demo:'Demo', repository:'Repository', cvMissing:'English CV pending', cvFallback:'Download CV (ES)', preview:'PREVIEW · DRAFT', email:'Email me', links:'Find me on', minimize:'Minimize window', maximize:'Maximize or restore window', close:'Close window', open:'Open portfolio', error:'Could not load the portfolio. Please try again.', retry:'Retry', dragHint:'Drag icons · Alt + arrow keys', resetIcons:'Arrange icons', address:'Address', ready:'Ready', moveWindow:'Drag to move · Double-click to maximize · Alt + arrow keys' }
 };
 let lang = 'es'; try { lang = localStorage.getItem('fg-language') === 'en' ? 'en' : 'es'; } catch {}
 const params = new URLSearchParams(location.search);
 if (['es','en'].includes(params.get('lang'))) lang = params.get('lang');
 const staticContentURL = document.documentElement.dataset.contentUrl;
 const isPreview = !staticContentURL && params.get('preview') === '1';
-let content, section = 'about', phoneHome = true, minimized = false, closed = false;
+let content, section = 'about', phoneHome = true, minimized = false, closed = false, startOpen = false;
 const mq = matchMedia('(max-width: 800px), (max-height: 500px) and (max-width: 1000px)');
 const desktop = createDesktop($('#desktop-home'), mq);
+const desktopWindow = createWindow($('#window'), $('#desktop-workspace'), mq);
 const t = key => labels[lang][key] || key;
 const text = value => typeof value === 'object' && value ? value[lang] || value[lang === 'es' ? 'en' : 'es'] || '' : value || '';
 const paragraphs = s => esc(text(s)).split('\n').filter(Boolean).map(p=>`<p>${p}</p>`).join('');
@@ -56,9 +57,17 @@ function render(focus=false) {
   const menu=mq.matches && phoneHome;
   $('.device-screen').classList.toggle('show-menu',menu);
   $('#window').hidden=!mq.matches && (minimized || closed);
-  $('#desktop-home').hidden=mq.matches || (!minimized && !closed);
+  $('#desktop-home').hidden=mq.matches;
   $('#desktop-home').innerHTML=sections().map(s=>`<button class="desktop-shortcut" data-section="${s}" aria-describedby="desktop-hint"><span class="desktop-app-icon">${icon(s)}</span><span>${t(s)}</span></button>`).join('')+`<div class="desktop-help"><span id="desktop-hint">${t('dragHint')}</span><button data-action="reset-icons">${t('resetIcons')}</button></div>`;
-  desktop.layout();
+  desktop.layout(); desktopWindow.layout();
+  $('.titlebar').title=t('moveWindow');
+  $('.titlebar').setAttribute('aria-label', `${t(section)}. ${t('moveWindow')}`);
+  $('#window-address').textContent=`${lang==='es'?'Mi PC':'My Computer'} \u203a Portfolio \u203a ${t(section)}`;
+  $('#window-status').textContent=`${t('ready')} · ${content.profile.name}`;
+  $('#start-menu').hidden=mq.matches || !startOpen;
+  $('#start-menu').setAttribute('aria-label',t('home'));
+  $('#start-menu').innerHTML=`<div class="start-user"><span aria-hidden="true">FG</span><strong>${esc(content.profile.name)}</strong></div><div class="start-items">${sections().map(s=>`<button data-section="${s}">${icon(s)}<span>${t(s)}</span></button>`).join('')}</div><div class="start-download">${cvLink('button')}</div>`;
+  $('.start-button').setAttribute('aria-expanded',String(!mq.matches && startOpen));
   $('#main-content').innerHTML=menu?phoneMenu():section==='about'?about():section==='skills'?skills():section==='contact'?contact():section==='projects'?projects():entries(section);
   $('#back-button').hidden=menu; $('#back-button').textContent=`← ${t('back')}`;
   $('#phone-caption').textContent=menu?t('menu'):t(section);
@@ -68,18 +77,21 @@ function render(focus=false) {
 document.addEventListener('click',e=>{
   const target=e.target.closest('button'); if(!target)return;
   if(target.dataset.lang) { lang=target.dataset.lang; try {localStorage.setItem('fg-language',lang);}catch{} render(); }
-  if(target.dataset.section) {section=target.dataset.section;phoneHome=false;minimized=closed=false;render(true);}
+  if(target.dataset.section) {startOpen=false;section=target.dataset.section;phoneHome=false;minimized=closed=false;render(true);}
   switch(target.dataset.action) {
     case 'minimize': minimized=true;render();$('#task-tab').focus();break;
-    case 'maximize': $('#window').classList.toggle('maximized');target.setAttribute('aria-pressed',String($('#window').classList.contains('maximized')));break;
+    case 'maximize': desktopWindow.toggleMaximize();break;
+    case 'start-menu': startOpen=!startOpen;render();if(startOpen)$('#start-menu button')?.focus();break;
     case 'close': closed=true;section='about';render();$('.desktop-shortcut')?.focus();break;
     case 'restore': minimized=closed=false;render(true);break;
-    case 'home': section='about';minimized=closed=false;render(true);break;
+    case 'home': startOpen=false;section='about';minimized=closed=false;render(true);break;
     case 'back': phoneHome=true;render(true);break;
     case 'retry': load();break;
   }
 });
-mq.addEventListener('change',()=>render());
+document.addEventListener('pointerdown', e=>{if(startOpen && !e.target.closest('#start-menu,.start-button')){startOpen=false;$('#start-menu').hidden=true;$('.start-button').setAttribute('aria-expanded','false');}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape' && startOpen){startOpen=false;render();$('.start-button').focus();}});
+mq.addEventListener('change',()=>{startOpen=false;render();});
 function clock(){ $('#clock').textContent=new Date().toLocaleTimeString(lang,{hour:'2-digit',minute:'2-digit',hour12:false}); } clock();setInterval(clock,60000);
 async function load(){try {const r=await fetch(staticContentURL ? new URL(staticContentURL,import.meta.url) : `/api/content${isPreview?'?preview=1':''}`);if(!r.ok)throw Error();content=(await r.json()).content;render();}catch{$('#main-content').innerHTML=`<p role="alert">${t('error')}</p><button class="button" data-action="retry">${t('retry')}</button>`;}}
 load();

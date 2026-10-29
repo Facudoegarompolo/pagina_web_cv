@@ -72,6 +72,7 @@ Los proyectos no aparecen en la web hasta que exista al menos uno visible. El co
 - Los PDF en español e inglés reflejan esa actualización. `scripts/create-cv.py` los genera desde una copia del contenido público; requiere ReportLab. Los originales se conservan localmente.
 - Las fotografías de ambientación provienen de las dos imágenes proporcionadas por el usuario. La interfaz visible dentro de cada dispositivo se dibuja con HTML y CSS, por encima de la imagen.
 - El idioma y las posiciones de los íconos del escritorio se recuerdan en este navegador mediante `localStorage`; el contenido del panel se almacena en SQLite. Los íconos se mueven arrastrando o con Alt + flechas, y se reordenan con «Ordenar íconos».
+- En PC, la ventana se arrastra desde el título y permanece dentro del escritorio. Doble clic en el título maximiza/restaura; Alt + flechas mueve la ventana con el título enfocado. Al minimizar y restaurar se conserva la posición durante la sesión. El menú Inicio abre las secciones y permite descargar el CV.
 
 ## Copias de seguridad y recuperación
 

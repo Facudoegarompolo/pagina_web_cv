@@ -76,3 +76,64 @@ export function createDesktop(area, mobileQuery) {
   new ResizeObserver(layout).observe(area);
   return { layout };
 }
+
+export function createWindow(frame, workspace, mobileQuery) {
+  const bar = frame.querySelector('.titlebar');
+  const control = frame.querySelector('[data-action="maximize"]');
+  let position = { x: 1, y: .35 }, drag = null;
+  const bounds = () => ({ width: workspace.clientWidth, height: workspace.clientHeight });
+  function place(x, y) {
+    const { width, height } = bounds();
+    const point = clampPosition(x, y, width, height, frame.offsetWidth, frame.offsetHeight);
+    frame.style.left = `${point.x}px`; frame.style.top = `${point.y}px`;
+    return point;
+  }
+  function remember() {
+    const { width, height } = bounds();
+    position = { x: frame.offsetLeft / Math.max(1, width - frame.offsetWidth), y: frame.offsetTop / Math.max(1, height - frame.offsetHeight) };
+  }
+  function layout() {
+    if (drag) finish(true);
+    if (mobileQuery.matches) { frame.style.removeProperty('left'); frame.style.removeProperty('top'); return; }
+    if (frame.hidden) return;
+    const { width, height } = bounds();
+    if (frame.classList.contains('maximized')) place(0, 0);
+    else place(position.x * (width - frame.offsetWidth), position.y * (height - frame.offsetHeight));
+  }
+  function toggleMaximize() {
+    if (mobileQuery.matches) return;
+    frame.classList.toggle('maximized');
+    control.setAttribute('aria-pressed', String(frame.classList.contains('maximized')));
+    control.textContent = frame.classList.contains('maximized') ? '❐' : '□';
+    layout();
+  }
+  function finish(cancelled = false) {
+    if (!drag) return;
+    const old = drag; drag = null;
+    if (cancelled) place(old.left, old.top); else remember();
+    frame.classList.remove('moving');
+    if (bar.hasPointerCapture(old.id)) bar.releasePointerCapture(old.id);
+  }
+  bar.addEventListener('pointerdown', event => {
+    if (event.target.closest('button') || mobileQuery.matches || frame.classList.contains('maximized') || event.button !== 0 || !event.isPrimary) return;
+    drag = { id: event.pointerId, x: event.clientX, y: event.clientY, left: frame.offsetLeft, top: frame.offsetTop };
+    bar.setPointerCapture(event.pointerId); bar.focus({ preventScroll: true }); event.preventDefault();
+  });
+  bar.addEventListener('pointermove', event => {
+    if (!drag || event.pointerId !== drag.id) return;
+    frame.classList.add('moving');
+    place(drag.left + event.clientX - drag.x, drag.top + event.clientY - drag.y);
+  });
+  bar.addEventListener('pointerup', event => { if (drag?.id === event.pointerId) finish(); });
+  bar.addEventListener('pointercancel', () => finish(true));
+  bar.addEventListener('lostpointercapture', () => finish(true));
+  bar.addEventListener('dblclick', event => { if (!event.target.closest('button')) toggleMaximize(); });
+  bar.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && drag) { finish(true); event.preventDefault(); }
+    const delta = { ArrowLeft: [-10, 0], ArrowRight: [10, 0], ArrowUp: [0, -10], ArrowDown: [0, 10] }[event.key];
+    if (event.target !== bar || !event.altKey || !delta || mobileQuery.matches || frame.classList.contains('maximized')) return;
+    event.preventDefault(); place(frame.offsetLeft + delta[0], frame.offsetTop + delta[1]); remember();
+  });
+  new ResizeObserver(layout).observe(workspace);
+  return { layout, toggleMaximize };
+}
