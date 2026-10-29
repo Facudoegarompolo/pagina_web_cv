@@ -11,7 +11,7 @@
     "dev": "node --env-file-if-exists=.env --watch server.mjs",
     "preview:lan": "node --env-file-if-exists=.env scripts/preview-lan.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "node --check server.mjs && node --check public/app.js && node --check public/admin.js && node --check scripts/preview-lan.mjs && node --check scripts/export-pages.mjs",
+    "check": "node --check server.mjs && node --check public/app.js && node --check public/desktop.js && node --check public/artwork.js && node --check public/admin.js && node --check scripts/preview-lan.mjs && node --check scripts/export-pages.mjs",
     "reset-password": "node --env-file-if-exists=.env scripts/reset-password.mjs",
     "export:pages": "node --env-file-if-exists=.env scripts/export-pages.mjs"
   }

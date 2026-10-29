@@ -44,7 +44,7 @@ export function exportPages({ dataDir = resolve(process.env.DATA_DIR || join(roo
     writeFileSync(join(staging, 'index.html'), html);
     const css = readFileSync(join(root, 'public/style.css'), 'utf8').replaceAll("url('/assets/", "url('./assets/");
     writeFileSync(join(staging, 'style.css'), css);
-    for (const file of ['app.js', 'favicon.svg']) copyFileSync(join(root, 'public', file), join(staging, file));
+    for (const file of ['app.js', 'desktop.js', 'artwork.js', 'favicon.svg']) copyFileSync(join(root, 'public', file), join(staging, file));
     for (const file of ['desktop.jpg', 'mobile.jpg']) copyFileSync(join(root, 'public/assets', file), join(staging, 'assets', file));
     for (const { id, path } of sources) copyFileSync(path, join(staging, 'media', id));
     writeFileSync(join(staging, 'content.json'), JSON.stringify({ ...payload, content: relativeMedia(payload.content) }, null, 2) + '\n');

@@ -68,10 +68,10 @@ Los proyectos no aparecen en la web hasta que exista al menos uno visible. El co
 ## Datos iniciales y referencias
 
 - Fuente: `CV_Facundo_Garompolo_EN_B1.pdf` proporcionado por Facundo.
-- La formación inicial conserva el 40% de materias aprobadas del PDF; es editable en Formación.
-- El PDF español es una traducción del documento recibido, con los mismos datos y sin nuevas fechas ni logros. El inglés es el archivo original.
+- La formación refleja el 50% de materias aprobadas y la experiencia incluye la pasantía actual de Sistemas en Clínica ITAC (actualización solicitada en octubre de 2026). No se agregaron fechas de inicio ni tareas no informadas.
+- Los PDF en español e inglés reflejan esa actualización. `scripts/create-cv.py` los genera desde una copia del contenido público; requiere ReportLab. Los originales se conservan localmente.
 - Las fotografías de ambientación provienen de las dos imágenes proporcionadas por el usuario. La interfaz visible dentro de cada dispositivo se dibuja con HTML y CSS, por encima de la imagen.
-- El idioma se recuerda en este navegador. Es la única preferencia guardada en `localStorage`; el contenido del panel se almacena en SQLite.
+- El idioma y las posiciones de los íconos del escritorio se recuerdan en este navegador mediante `localStorage`; el contenido del panel se almacena en SQLite. Los íconos se mueven arrastrando o con Alt + flechas, y se reordenan con «Ordenar íconos».
 
 ## Copias de seguridad y recuperación
 

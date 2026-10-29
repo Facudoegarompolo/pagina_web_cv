@@ -36,6 +36,10 @@ test('Pages exporta solo publicación y archivos visibles, con rutas relativas',
     assert.doesNotMatch(html, /(?:href|src)="\//);
     assert.doesNotMatch(readFileSync(join(outputDir, 'style.css'), 'utf8'), /url\(['"]?\//);
     assert.ok(existsSync(join(outputDir, '.nojekyll')));
+    for (const module of ['desktop.js', 'artwork.js']) {
+      assert.ok(existsSync(join(outputDir, module)), `El módulo público ${module} debe acompañar a app.js`);
+      assert.ok(readFileSync(join(outputDir, 'app.js'), 'utf8').includes(`'./${module}'`));
+    }
     for (const name of ['admin.html','admin.js','admin.css','portfolio.sqlite','server.mjs']) assert.equal(existsSync(join(outputDir, name)), false);
     writeFileSync(join(outputDir, 'CNAME'), 'portfolio.example.com');
     writeFileSync(join(outputDir, 'media/stale.pdf'), 'Old file');

@@ -7,8 +7,8 @@
         "en": "Computer Engineering student"
       },
       "intro": {
-        "es": "Me interesan las soluciones prácticas y el aprendizaje continuo. Busco una pasantía en IT para adquirir experiencia profesional, mejorar mis habilidades técnicas y aportar al equipo con compromiso, proactividad y rápida adaptación.",
-        "en": "I am interested in practical solutions and continuous learning. I am looking for an IT internship to gain professional experience, improve my technical skills, and contribute to the team with commitment, proactivity and quick adaptation."
+        "es": "Me interesan las soluciones prácticas y el aprendizaje continuo. Actualmente soy pasante de Sistemas en Clínica ITAC, donde continúo desarrollando mi experiencia profesional en IT.",
+        "en": "I am interested in practical solutions and continuous learning. I am currently an IT intern at ITAC Clinic, where I continue to develop my professional experience in IT."
       },
       "location": {
         "es": "San Miguel, Buenos Aires",
@@ -24,6 +24,30 @@
       "photoZoom": 1
     },
     "experience": [
+      {
+        "id": "itac",
+        "visible": true,
+        "title": {
+          "es": "Pasante de Sistemas",
+          "en": "IT Intern"
+        },
+        "organization": {
+          "es": "Clínica ITAC",
+          "en": "ITAC Clinic"
+        },
+        "dates": {
+          "es": "Actualidad",
+          "en": "Present"
+        },
+        "description": {
+          "es": "",
+          "en": ""
+        },
+        "tasks": {
+          "es": "",
+          "en": ""
+        }
+      },
       {
         "id": "sforza",
         "visible": true,
@@ -97,7 +121,7 @@
           "es": "En curso",
           "en": "In progress"
         },
-        "progress": 40,
+        "progress": 50,
         "certificate": "",
         "certificateVisible": false
       },
@@ -223,10 +247,10 @@
       "github": "",
       "links": [],
       "cv": {
-        "es": "./media/cv-original-es.pdf",
-        "en": "./media/cv-original-en.pdf"
+        "es": "./media/cv-updated-es.pdf",
+        "en": "./media/cv-updated-en.pdf"
       }
     }
   },
-  "updated": "2026-10-06T17:09:09.736Z"
+  "updated": "2026-10-29T00:33:45.389Z"
 }
