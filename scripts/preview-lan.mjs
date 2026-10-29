@@ -11,7 +11,7 @@ if (!address) throw new Error('Conectá la computadora al Wi-Fi y volvé a ejecu
 const port = Number(process.env.LAN_PORT || 3001);
 const upstreamPort = Number(process.env.PORT || 3000);
 const authority = `${address}:${port}`;
-const allowed = new Set(['/', '/app.js', '/desktop.js', '/artwork.js', '/style.css', '/favicon.svg', '/api/content']);
+const allowed = new Set(['/', '/app.js', '/desktop.js', '/artwork.js', '/style.css', '/monochrome.css', '/favicon.svg', '/api/content']);
 
 const server = http.createServer((req, res) => {
   const url = new URL(req.url, `http://${authority}`);

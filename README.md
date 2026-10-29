@@ -74,6 +74,8 @@ Los proyectos no aparecen en la web hasta que exista al menos uno visible. El co
 - El idioma y las posiciones de los íconos del escritorio se recuerdan en este navegador mediante `localStorage`; el contenido del panel se almacena en SQLite. Los íconos se mueven arrastrando o con Alt + flechas, y se reordenan con «Ordenar íconos».
 - En PC, la ventana se arrastra desde el título y permanece dentro del escritorio. Doble clic en el título maximiza/restaura; Alt + flechas mueve la ventana con el título enfocado. Al minimizar y restaurar se conserva la posición durante la sesión. El menú Inicio abre las secciones y permite descargar el CV.
 
+La variante actual en blanco y negro está en `public/monochrome.css`. Conserva la interfaz Windows y agrega pulsaciones suaves a la lámpara, el monitor y el LED, además del cursor de escritura. Las animaciones se desactivan automáticamente si el dispositivo pide reducir el movimiento.
+
 ## Copias de seguridad y recuperación
 
 **No borres `data/`.** Contiene:
