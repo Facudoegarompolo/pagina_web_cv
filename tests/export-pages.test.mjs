@@ -36,8 +36,8 @@ test('Pages exporta solo publicación y archivos visibles, con rutas relativas',
     assert.doesNotMatch(html, /(?:href|src)="\//);
     assert.doesNotMatch(readFileSync(join(outputDir, 'style.css'), 'utf8'), /url\(['"]?\//);
     assert.ok(existsSync(join(outputDir, '.nojekyll')));
-    assert.ok(existsSync(join(outputDir, 'monochrome.css')));
-    assert.match(html, /href="\.\/monochrome\.css"/);
+    assert.ok(existsSync(join(outputDir, 'themes.css')));
+    assert.match(html, /href="\.\/themes\.css"/);
     for (const module of ['desktop.js', 'artwork.js']) {
       assert.ok(existsSync(join(outputDir, module)), `El módulo público ${module} debe acompañar a app.js`);
       assert.ok(readFileSync(join(outputDir, 'app.js'), 'utf8').includes(`'./${module}'`));

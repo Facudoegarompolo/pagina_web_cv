@@ -74,7 +74,7 @@ Los proyectos no aparecen en la web hasta que exista al menos uno visible. El co
 - El idioma, el tema de la pantalla y las posiciones de los íconos del escritorio se recuerdan en este navegador mediante `localStorage`; el contenido del panel se almacena en SQLite. Los íconos se mueven arrastrando o con Alt + flechas, y se reordenan con «Ordenar íconos».
 - En PC, la ventana se arrastra desde el título y permanece dentro del escritorio. Doble clic en el título maximiza/restaura; Alt + flechas mueve la ventana con el título enfocado. Al minimizar y restaurar se conserva la posición durante la sesión. El menú Inicio abre las secciones y permite descargar el CV.
 
-Los temas claro y oscuro de la pantalla están en `public/monochrome.css`. Se eligen con el selector junto al idioma y se recuerdan en el navegador. El entorno conserva sus colores originales en ambos temas. Se mantiene la interfaz Windows y las pulsaciones suaves de la lámpara, el monitor y el LED, además del cursor de escritura. Las animaciones se desactivan automáticamente si el dispositivo pide reducir el movimiento.
+Los modos día y noche de la pantalla están en `public/themes.css`. Se eligen con el selector junto al idioma y se recuerdan en el navegador. Ambos modos conservan los colores de Windows, las ilustraciones, las fotos y el entorno. El modo noche oscurece los fondos de lectura y adapta el texto; no aplica filtros de escala de grises. Se mantiene la interfaz Windows y las pulsaciones suaves de la lámpara, el monitor y el LED, además del cursor de escritura. Las animaciones se desactivan automáticamente si el dispositivo pide reducir el movimiento.
 
 ## Copias de seguridad y recuperación
 
