@@ -15,10 +15,11 @@ const icons = {
 };
 const icon = key => `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">${icons[key] || icons.projects}</svg>`;
 const labels = {
-  es: { about:'Sobre mí', experience:'Experiencia', education:'Formación', skills:'Habilidades', projects:'Proyectos', contact:'Contacto', download:'Descargar CV', home:'Inicio', back:'Atrás', menu:'Menú principal', welcome:'Bienvenido a mi espacio', available:'Informática · Aprendizaje continuo', hello:'Hola, soy', contactMe:'Contactame', more:'Conocé mi formación', empty:'Todavía no hay contenido publicado en esta sección.', progress:'de materias aprobadas', certificate:'Ver certificado', featured:'Destacado', site:'Sitio web', demo:'Demo', repository:'Repositorio', cvMissing:'CV en español pendiente', cvFallback:'Descargar CV (EN)', preview:'VISTA PREVIA · BORRADOR', email:'Escribime', links:'Encontrame también en', minimize:'Minimizar ventana', maximize:'Ampliar o restaurar ventana', close:'Cerrar ventana', open:'Abrir portfolio', error:'No se pudo cargar el portfolio. Volvé a intentarlo.', retry:'Reintentar', dragHint:'Arrastrá los íconos · Alt + flechas', resetIcons:'Ordenar íconos', address:'Dirección', ready:'Listo', moveWindow:'Arrastrá para mover · Doble clic para maximizar · Alt + flechas' },
-  en: { about:'About me', experience:'Experience', education:'Education', skills:'Skills', projects:'Projects', contact:'Contact', download:'Download CV', home:'Start', back:'Back', menu:'Main menu', welcome:'Welcome to my space', available:'Computing · Continuous learning', hello:"Hi, I'm", contactMe:'Get in touch', more:'Explore my education', empty:'There is no published content in this section yet.', progress:'of subjects passed', certificate:'View certificate', featured:'Featured', site:'Website', demo:'Demo', repository:'Repository', cvMissing:'English CV pending', cvFallback:'Download CV (ES)', preview:'PREVIEW · DRAFT', email:'Email me', links:'Find me on', minimize:'Minimize window', maximize:'Maximize or restore window', close:'Close window', open:'Open portfolio', error:'Could not load the portfolio. Please try again.', retry:'Retry', dragHint:'Drag icons · Alt + arrow keys', resetIcons:'Arrange icons', address:'Address', ready:'Ready', moveWindow:'Drag to move · Double-click to maximize · Alt + arrow keys' }
+  es: { lightTheme:'Claro', darkTheme:'Oscuro', screenTheme:'Tema de la pantalla', about:'Sobre mí', experience:'Experiencia', education:'Formación', skills:'Habilidades', projects:'Proyectos', contact:'Contacto', download:'Descargar CV', home:'Inicio', back:'Atrás', menu:'Menú principal', welcome:'Bienvenido a mi espacio', available:'Informática · Aprendizaje continuo', hello:'Hola, soy', contactMe:'Contactame', more:'Conocé mi formación', empty:'Todavía no hay contenido publicado en esta sección.', progress:'de materias aprobadas', certificate:'Ver certificado', featured:'Destacado', site:'Sitio web', demo:'Demo', repository:'Repositorio', cvMissing:'CV en español pendiente', cvFallback:'Descargar CV (EN)', preview:'VISTA PREVIA · BORRADOR', email:'Escribime', links:'Encontrame también en', minimize:'Minimizar ventana', maximize:'Ampliar o restaurar ventana', close:'Cerrar ventana', open:'Abrir portfolio', error:'No se pudo cargar el portfolio. Volvé a intentarlo.', retry:'Reintentar', dragHint:'Arrastrá los íconos · Alt + flechas', resetIcons:'Ordenar íconos', address:'Dirección', ready:'Listo', moveWindow:'Arrastrá para mover · Doble clic para maximizar · Alt + flechas' },
+  en: { lightTheme:'Light', darkTheme:'Dark', screenTheme:'Screen theme', about:'About me', experience:'Experience', education:'Education', skills:'Skills', projects:'Projects', contact:'Contact', download:'Download CV', home:'Start', back:'Back', menu:'Main menu', welcome:'Welcome to my space', available:'Computing · Continuous learning', hello:"Hi, I'm", contactMe:'Get in touch', more:'Explore my education', empty:'There is no published content in this section yet.', progress:'of subjects passed', certificate:'View certificate', featured:'Featured', site:'Website', demo:'Demo', repository:'Repository', cvMissing:'English CV pending', cvFallback:'Download CV (ES)', preview:'PREVIEW · DRAFT', email:'Email me', links:'Find me on', minimize:'Minimize window', maximize:'Maximize or restore window', close:'Close window', open:'Open portfolio', error:'Could not load the portfolio. Please try again.', retry:'Retry', dragHint:'Drag icons · Alt + arrow keys', resetIcons:'Arrange icons', address:'Address', ready:'Ready', moveWindow:'Drag to move · Double-click to maximize · Alt + arrow keys' }
 };
 let lang = 'es'; try { lang = localStorage.getItem('fg-language') === 'en' ? 'en' : 'es'; } catch {}
+let theme='dark'; try { if(localStorage.getItem('fg-screen-theme')==='light')theme='light'; } catch {}
 const params = new URLSearchParams(location.search);
 if (['es','en'].includes(params.get('lang'))) lang = params.get('lang');
 const staticContentURL = document.documentElement.dataset.contentUrl;
@@ -28,6 +29,12 @@ const mq = matchMedia('(max-width: 800px), (max-height: 500px) and (max-width: 1
 const desktop = createDesktop($('#desktop-home'), mq);
 const desktopWindow = createWindow($('#window'), $('#desktop-workspace'), mq);
 const t = key => labels[lang][key] || key;
+function updateTheme(){
+  $('.device-screen').dataset.theme=theme;
+  $('.theme-switch').setAttribute('aria-label',t('screenTheme'));
+  document.querySelectorAll('button[data-theme]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.theme===theme)));
+}
+updateTheme();
 const text = value => typeof value === 'object' && value ? value[lang] || value[lang === 'es' ? 'en' : 'es'] || '' : value || '';
 const paragraphs = s => esc(text(s)).split('\n').filter(Boolean).map(p=>`<p>${p}</p>`).join('');
 const link = (url, label, cls='') => `<a class="${cls}" href="${esc(url)}" target="_blank" rel="noopener noreferrer">${label}</a>`;
@@ -42,6 +49,7 @@ function contact() { const c=content.contact; return `<div class="section-headin
 function phoneMenu() { return `<div class="phone-intro">${photo()}<h1>${esc(content.profile.name)}</h1><p>${esc(text(content.profile.title))}</p></div><nav class="phone-menu" aria-label="${esc(t('menu'))}">${sections().map(s=>`<button data-section="${s}">${icon(s)}<span>${t(s)}</span></button>`).join('')}${cvLink('phone-cv',true)}</nav>`; }
 function render(focus=false) {
   if (!content) return;
+  updateTheme();
   document.documentElement.lang=lang; document.title=`${content.profile.name} · CV & Portfolio`;
   document.querySelectorAll('[data-lang]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.lang===lang)));
   document.querySelectorAll('[data-label]').forEach(e=>e.textContent=t(e.dataset.label));
@@ -76,6 +84,7 @@ function render(focus=false) {
 }
 document.addEventListener('click',e=>{
   const target=e.target.closest('button'); if(!target)return;
+  if(target.dataset.theme){theme=target.dataset.theme;try{localStorage.setItem('fg-screen-theme',theme);}catch{}updateTheme();return;}
   if(target.dataset.lang) { lang=target.dataset.lang; try {localStorage.setItem('fg-language',lang);}catch{} render(); }
   if(target.dataset.section) {startOpen=false;section=target.dataset.section;phoneHome=false;minimized=closed=false;render(true);}
   switch(target.dataset.action) {

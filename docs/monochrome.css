@@ -1,17 +1,11 @@
-/* Monochrome edition: original device photos and layout are preserved. */
-:root{color-scheme:dark;--ink:#f3f3f3;--muted:#bababa;--accent:#fff;--line:#595959;--panel:#191919;--black:#090909;background:#111;color:#f3f3f3}
-body{background:#111}
-.site-header{background:linear-gradient(90deg,#161616f5,#080808f5);border-bottom-color:#494949}
-.monogram,.monogram span,.languages button[aria-pressed=true]{color:#fff}
-.header-note,.languages{color:#999}.languages button{color:#aaa}.languages button[aria-pressed=true]:after{background:#fff}
-.scene{filter:grayscale(1)}
-.device-screen{z-index:1;background:radial-gradient(ellipse at 50% 20%,#353535,#101010 85%);box-shadow:inset 0 0 22px 12px #000,0 0 18px #ffffff20}
+/* Screen-only light/dark themes; the room retains its original colors. */
+.device-screen{color-scheme:dark;--accent:#fff;--ink:#eee;--muted:#bbb;filter:grayscale(1);z-index:1;background:radial-gradient(ellipse at 50% 20%,#353535,#101010 85%);box-shadow:inset 0 0 22px 12px #000,0 0 18px #ffffff20}
 /* Independent light layers keep the text steady and never intercept input. */
 .monitor-glow{position:absolute;left:18.6%;top:12.5%;width:63.1%;height:63.5%;border-radius:8%;box-shadow:0 0 35px 9px #ffffff30,0 0 85px 24px #ffffff13;pointer-events:none;z-index:0;animation:monitor-breathe 6.4s ease-in-out infinite}
 .device-screen:before{content:'';position:absolute;inset:0;border-radius:inherit;background:linear-gradient(125deg,#fff8,transparent 58%);opacity:.025;pointer-events:none;z-index:4;animation:screen-shimmer 7.8s ease-in-out infinite}
-.lamp-glow{top:3%;right:-12%;width:36%;height:75%;background:radial-gradient(ellipse at 70% 28%,#ffffffa0,#ffffff32 34%,transparent 68%);filter:blur(22px);animation:lamp-breathe 8.6s ease-in-out infinite;opacity:.6}
+.lamp-glow{top:3%;right:-12%;width:36%;height:75%;background:radial-gradient(ellipse at 70% 28%,#ffd29ca0,#ffcc8a32 34%,transparent 68%);filter:blur(22px);animation:lamp-breathe 8.6s ease-in-out infinite;opacity:.6}
 .keyboard-glow{background:radial-gradient(ellipse at top,#ffffff38,transparent 70%);animation:monitor-breathe 6.4s ease-in-out infinite}
-.power-led{background:#f4f4f4;box-shadow:0 0 5px 2px #ffffffa0,0 0 16px 6px #ffffff30;animation:indicator-pulse 3.7s ease-in-out infinite}
+.power-led{background:#c3ed9c;box-shadow:0 0 5px 2px #b9eb76a0,0 0 16px 6px #bae48930;animation:indicator-pulse 3.7s ease-in-out infinite}
 .monogram span,.cursor{display:inline-block;animation:typing-cursor 1.1s steps(1,end) infinite}
 @keyframes typing-cursor{0%,49%{opacity:1}50%,100%{opacity:0}}
 @keyframes lamp-breathe{0%,100%{opacity:.45}22%{opacity:.83}42%{opacity:.57}57%{opacity:.72}66%{opacity:.42}79%{opacity:.88}91%{opacity:.62}}
@@ -48,3 +42,66 @@ body{background:#111}
   .lamp-glow,.monitor-glow,.keyboard-glow,.power-led,.device-screen:before,.monogram span,.cursor{animation:none!important}
   .monogram span,.cursor{opacity:1}.monitor-glow,.keyboard-glow{opacity:.5}.lamp-glow{opacity:.6}.power-led{opacity:.85}.device-screen:before{opacity:.025}
 }
+
+/* The selector stays outside the device, alongside the language controls. */
+.site-controls{display:flex;align-items:center;gap:24px}
+.theme-switch{display:flex;gap:2px;padding:3px;border:1px solid #4d5654;border-radius:5px;background:#111817}
+.theme-switch button{display:flex;align-items:center;gap:5px;border:0;border-radius:3px;padding:5px 9px;min-height:30px;background:transparent;color:#bfc5c2;font:12px Arial,sans-serif}
+.theme-switch button[aria-pressed=true]{background:#e5e8e4;color:#202522}
+.theme-switch button:hover{box-shadow:inset 0 0 0 1px #a4aaa6}
+.device-screen[data-theme=light]{color-scheme:light;--accent:#222;--ink:#171717;--muted:#555;background:linear-gradient(#eee,#cecece 66%,#aaa);color:#222;box-shadow:inset 0 0 22px 12px #0008,0 0 18px #ffffff30}
+.device-screen[data-theme=light] .desktop-home:before{background:radial-gradient(ellipse at 25% 112%,#8c8c8c 0 32%,transparent 32.5%),radial-gradient(ellipse at 82% 110%,#b7b7b7 0 35%,transparent 35.5%)}
+.device-screen[data-theme=light] .window{--accent:#222;--ink:#222;--muted:#555;background:#e9e9e9;color:#222;border-color:#777}
+.device-screen[data-theme=light] .titlebar{background:linear-gradient(#fafafa,#d6d6d6 18%,#b6b6b6 82%,#ccc);border-bottom-color:#888;box-shadow:inset 0 1px #fff;color:#171717;text-shadow:1px 1px #fff8}
+.device-screen[data-theme=light] .titlebar svg{color:#333;filter:none}
+.device-screen[data-theme=light] .window-controls button{background:linear-gradient(#fff,#ccc);border-color:#999;box-shadow:inset 1px 1px #fff,inset -2px -2px #aaa;color:#222;text-shadow:none}
+.device-screen[data-theme=light] .explorer-toolbar,.device-screen[data-theme=light] .window-status{background:#e7e7e7;border-color:#bbb;box-shadow:inset 0 1px #fff;color:#444}
+.device-screen[data-theme=light] .explorer-home{background:linear-gradient(#fff,#ddd);color:#333;border-color:#aaa}
+.device-screen[data-theme=light] .address-label{color:#555}
+.device-screen[data-theme=light] .explorer-address{background:#fff;border-color:#aaa;color:#333}
+.device-screen[data-theme=light] .explorer-address>span:first-child{color:#555}
+.device-screen[data-theme=light] .explorer-address>span:last-child{background:#ddd;color:#333}
+.device-screen[data-theme=light] .content,.device-screen[data-theme=light] .window-body{background:#fafafa;color:#222;scrollbar-color:#999 #eee}
+.device-screen[data-theme=light] .content h1,.device-screen[data-theme=light] .content h2{color:#1b1b1b}
+.device-screen[data-theme=light] .content p{color:#4b4b4b}
+.device-screen[data-theme=light] .content .eyebrow,.device-screen[data-theme=light] .content .hello,.device-screen[data-theme=light] .content .location{color:#626262}
+.device-screen[data-theme=light] .content .profession,.device-screen[data-theme=light] .cursor{color:#333}
+.device-screen[data-theme=light] .sidebar{background:linear-gradient(#dedede,#eee);border-color:#aaa}
+.device-screen[data-theme=light] .sidebar button{color:#444}
+.device-screen[data-theme=light] .sidebar button:hover{background:#fff;color:#111}
+.device-screen[data-theme=light] .sidebar button.active{background:linear-gradient(#555,#333);border-color:#222;color:#fff}
+.device-screen[data-theme=light] .button,.device-screen[data-theme=light] .button.primary{background:linear-gradient(#fff,#e0e0e0);border-color:#999;color:#222}
+.device-screen[data-theme=light] .button:hover{background:#fff;border-color:#444}
+.device-screen[data-theme=light] .text-link,.device-screen[data-theme=light] .text-link:hover{color:#444}
+.device-screen[data-theme=light] .entry,.device-screen[data-theme=light] .project{border-color:#ccc}
+.device-screen[data-theme=light] .entry-icon,.device-screen[data-theme=light] .entry-meta,.device-screen[data-theme=light] .entry .organization,.device-screen[data-theme=light] .content .progress-label{color:#555}
+.device-screen[data-theme=light] .tag{background:#eee;border-color:#aaa;color:#333}
+.device-screen[data-theme=light] progress,.device-screen[data-theme=light] progress::-webkit-progress-bar{background:#ddd}
+.device-screen[data-theme=light] progress{accent-color:#555}
+.device-screen[data-theme=light] progress::-webkit-progress-value{background:repeating-linear-gradient(90deg,#666 0 8px,#ddd 8px 10px)}
+.device-screen[data-theme=light] .skill-card,.device-screen[data-theme=light] .contact-card{background:#eee;border-color:#bbb}
+.device-screen[data-theme=light] .contact-card:hover{background:#fff;border-color:#888}
+.device-screen[data-theme=light] .contact-card small,.device-screen[data-theme=light] .skill-card p{color:#555}
+.device-screen[data-theme=light] .contact-card strong,.device-screen[data-theme=light] .contact-card>span:last-child,.device-screen[data-theme=light] .project .technology,.device-screen[data-theme=light] .project-links,.device-screen[data-theme=light] .unavailable{color:#333}
+.device-screen[data-theme=light] .taskbar{background:linear-gradient(#fff,#d6d6d6 15%,#bbb 85%,#ddd);border-color:#fff}
+.device-screen[data-theme=light] .taskbar .task-tab{background:linear-gradient(#fff,#d0d0d0);border-color:#aaa;box-shadow:inset 1px 1px #fff;color:#222}
+.device-screen[data-theme=light] .task-tab svg{color:#444}
+.device-screen[data-theme=light] .task-language,.device-screen[data-theme=light] .taskbar time{background:#ccc;border-color:#999;color:#333}
+.device-screen[data-theme=light] .desktop-shortcut>span:last-child,.device-screen[data-theme=light] .desktop-help{color:#222;text-shadow:1px 1px #fff9}
+.device-screen[data-theme=light] .desktop-shortcut:focus-visible>span:last-child{color:#fff;text-shadow:none;background:#444}
+.device-screen[data-theme=light] .desktop-help button{background:linear-gradient(#fff,#ccc);border-color:#aaa;color:#333}
+.device-screen[data-theme=light] .start-menu{background:#fafafa;color:#222}
+.device-screen[data-theme=light] .start-user{background:linear-gradient(#eee,#bbb);color:#222;border-color:#888}
+.device-screen[data-theme=light] .start-items button,.device-screen[data-theme=light] .start-items button svg{color:#333}
+.device-screen[data-theme=light] .start-items button:hover,.device-screen[data-theme=light] .start-items button:focus-visible{background:#ccc;color:#111}
+.device-screen[data-theme=light] .start-download{background:#ddd;border-color:#aaa}
+@media(max-width:800px),(max-height:500px) and (max-width:1000px){
+  .header-note{display:none}.site-controls{gap:14px}.theme-switch button{padding:5px 6px;font-size:11px}
+  .device-screen[data-theme=light] .window,.device-screen[data-theme=light] .window-body,.device-screen[data-theme=light] .content{background:transparent}
+  .device-screen[data-theme=light] .phone-intro h1,.device-screen[data-theme=light] .phone-intro p{color:#333}
+  .device-screen[data-theme=light] .phone-menu button,.device-screen[data-theme=light] .phone-menu a{background:linear-gradient(#fff8,#ddd8);border-color:#999;box-shadow:inset 0 0 0 2px #fff5;color:#333}
+  .device-screen[data-theme=light] .phone-menu button:hover,.device-screen[data-theme=light] .phone-menu a:hover{background:#fff}
+  .device-screen[data-theme=light] .mobile-status,.device-screen[data-theme=light] .phone-footer,.device-screen[data-theme=light] .phone-footer button{color:#444;border-color:#999}
+  .device-screen[data-theme=light] .mobile-status span:last-child{border-color:#777}
+}
+@media(max-width:360px){.site-header{padding:0 12px}.site-controls{gap:10px}.languages{gap:10px}.theme-switch button{padding:5px}}
